@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+
+">
+
+    <!--声明一个简单的bean-->
+    <bean id="compactDisc" class="com.wwr.chapter2.part2_4.SgtPeppers"></bean>
+
+    <!--使用构造器注入bean-->
+    <bean id="cdPlayer" class="com.wwr.chapter2.part2_4.MediaPlayer">
+        <constructor-arg ref="compactDisc"/>
+    </bean>
+
+    <!--使用c-命名空间声明构造器参数-->
+    <!--使用c-命名空间无法注入集合类型-->
+    <bean
+            id="anthorCdPlayer"
+            class="com.wwr.chapter2.part2_4.MediaPlayer"
+            c:cd-ref="compactDisc"
+    ></bean>
+
+    <!--使用property注入属性值-->
+    <bean id="specialCdPlayer" class="com.wwr.chapter2.part2_4.SpecialCDPlayer">
+        <property name="cd" ref="compactDisc"></property>
+    </bean>
+
+    <!--使用p命名空间注入属性值-->
+    <!--使用p-命名空间无法直接注入集合类型-->
+    <bean
+            id="anothorSpecialCdPlayer"
+            class="com.wwr.chapter2.part2_4.SpecialCDPlayer"
+            p:cd-ref="compactDisc"
+    ></bean>
+
+    <bean id="blankPlayer" class="com.wwr.chapter2.part2_4.BlackDiscPlayer" p:cd-ref="blankDisc"></bean>
+
+    <bean
+            id="blankDisc"
+            class="com.wwr.chapter2.part2_4.BlankDisc"
+            p:tracks-ref="tracks"
+            p:artist="blankDisc"
+            p:title="beyong"
+    ></bean>
+
+    <!--使用p-命名空间无法直接注入集合类型-->
+    <util:list id="tracks" value-type="java.lang.String">
+        <value>1111111</value>
+        <value>2222222</value>
+        <value>3333333</value>
+        <value>4444444</value>
+        <value>5555555</value>
+    </util:list>
+
+</beans>
